@@ -76,7 +76,7 @@ describe("application controller", () => {
       scrambled,
     );
     expect(document.querySelector("#histogramCaption")?.textContent).toContain(
-      "960 positions",
+      "1 move from solved",
     );
     expect(
       Array.from(

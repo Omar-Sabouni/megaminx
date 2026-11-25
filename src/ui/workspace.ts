@@ -84,7 +84,6 @@ export class WorkspaceView {
           <div class="app-identity">
             <div class="title-stack">
               <h1 aria-label="Megaminx"><span>M</span><span>e</span><span>g</span><span>a</span><span>m</span><span>i</span><span>n</span><span>x</span></h1>
-              <p class="subtitle">This models the five top-layer edges of a Megaminx, turned by two moves that reach 960 positions.</p>
             </div>
           </div>
           <p id="globalStatus" class="global-status info" role="status" aria-live="polite">Loading…</p>

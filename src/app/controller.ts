@@ -1030,7 +1030,6 @@ export class MegaminxApp {
   private renderLayers(result: SearchOutcome<EdgeState, Move>): void {
     const { elements } = this.view;
     const layers = result.layers;
-    const total = layers.reduce((sum, layer) => sum + layer.count, 0);
     const goalDepth = result.status === "found" ? result.depth : null;
     const maxCount = Math.max(1, ...layers.map((layer) => layer.count));
     elements.histogram.style.setProperty(
@@ -1059,16 +1058,13 @@ export class MegaminxApp {
         return column;
       }),
     );
-    const farthest = layers.at(-1)?.depth ?? 0;
     const goalNote =
       goalDepth !== null
         ? ` This position is ${goalDepth} move${goalDepth === 1 ? "" : "s"} from solved.`
         : result.status === "unreachable"
           ? " This position can't reach solved."
           : "";
-    elements.histogramCaption.textContent = result.componentComplete
-      ? `There are ${total} positions, and none is more than ${farthest} moves from solved.${goalNote}`
-      : `The search has found ${total} positions so far.${goalNote}`;
+    elements.histogramCaption.textContent = goalNote.trim();
 
     elements.histogramTableBody.replaceChildren(
       ...layers.map((layer) => {

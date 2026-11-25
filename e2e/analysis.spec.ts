@@ -31,7 +31,7 @@ test("analysis is non-mutating until explicit solution playback", async ({
   await expect(page.locator(".layer-bar-wrap")).toHaveCount(10);
   await expect(page.locator('[data-depth="1"] .layer-bar.goal')).toBeVisible();
   await expect(page.locator("#histogramCaption")).toContainText(
-    "960 positions",
+    "1 move from solved",
   );
   await expect(page.locator("#analysisStatus")).toContainText(
     "Solved in 1 move",
@@ -65,6 +65,6 @@ test("a structurally valid unreachable state remains analyzable", async ({
   );
   await expect(page.locator("#solutionDepth")).toHaveText("—");
   await expect(page.locator("#histogramCaption")).toContainText(
-    "960 positions",
+    "can't reach solved",
   );
 });
