@@ -57,11 +57,11 @@ test("a structurally valid unreachable state remains analyzable", async ({
     .getByRole("button", { name: "Load state" })
     .click();
   await expect(page.locator("#globalStatus")).toContainText(
-    "unreachable component",
+    "can't be solved with F and S",
   );
   await page.locator("#solveButton").click();
   await expect(page.locator("#analysisStatus")).toContainText(
-    "Component mismatch",
+    "can't be solved with F and S",
   );
   await expect(page.locator("#solutionDepth")).toHaveText("—");
   await expect(page.locator("#histogramCaption")).toContainText(

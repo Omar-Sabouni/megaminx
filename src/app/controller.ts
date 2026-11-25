@@ -12,7 +12,6 @@ import type { DecodedSession } from "../services/url-session";
 import {
   SearchCancelledError,
   SearchClient,
-  SearchClientError,
 } from "../services/search-client";
 import type { TopLayerScene } from "../ui/scene";
 import { WorkspaceView } from "../ui/workspace";
@@ -149,14 +148,9 @@ export class MegaminxApp {
     try {
       this.searchClient?.dispose();
       this.searchClient = new SearchClient();
-    } catch (error) {
+    } catch {
       this.searchClient = null;
-      this.setStatus(
-        error instanceof Error
-          ? `Search worker unavailable: ${error.message}`
-          : "Search worker unavailable.",
-        "error",
-      );
+      this.setStatus("Solving isn't available. Reload the page to try again.", "error");
     }
   }
 
@@ -172,7 +166,7 @@ export class MegaminxApp {
       this.scene = scene;
       if (!scene.available) {
         this.view.setSceneUnavailable(
-          "WebGL could not start. Text controls and exact analysis are still available.",
+          "The 3D view needs WebGL. The move controls still work.",
         );
         return;
       }
@@ -390,7 +384,7 @@ export class MegaminxApp {
     if (this.controlsLocked()) return;
     this.prepareManualMutation();
     const state = this.session.replaceRoot(this.puzzle.solvedState);
-    void this.transitionAndFinish(state, "Solved state loaded.");
+    void this.transitionAndFinish(state, "");
   }
 
   private loadStateInput(): void {
@@ -413,8 +407,8 @@ export class MegaminxApp {
     const state = this.session.replaceRoot(result.value);
     const reachability = validateReachableInput(result.value);
     const message = reachability.ok
-      ? "State loaded."
-      : `State loaded from an unreachable component: ${reachability.reason ?? "component mismatch"}`;
+      ? ""
+      : "This position can't be solved with F and S.";
     void this.transitionAndFinish(
       state,
       message,
@@ -429,7 +423,7 @@ export class MegaminxApp {
     if (!this.wordPreview?.ok) return;
     const { moves } = this.wordPreview.value;
     if (moves.length === 0) {
-      this.setStatus("The identity word leaves the state unchanged.", "info");
+      this.setStatus("These moves cancel out.", "info");
       return;
     }
     this.prepareManualMutation();
@@ -454,7 +448,7 @@ export class MegaminxApp {
       "Word replay",
       false,
     );
-    this.setStatus("Word ready at step 0.", "info");
+    this.setStatus("Press Play to watch the moves.", "info");
   }
 
   private loadScramble(): void {
@@ -528,7 +522,7 @@ export class MegaminxApp {
           "Scramble replay",
           false,
         );
-        this.setStatus("Scramble ready at step 0.", "info");
+        this.setStatus("Press Play to watch the scramble.", "info");
         this.render();
         this.scheduleUrlUpdate();
       },
@@ -547,7 +541,7 @@ export class MegaminxApp {
         this.view.elements.scrambleError,
       );
       this.scheduleUrlUpdate();
-      this.setStatus("Scramble key changed.", "info");
+      this.setStatus("", "info");
     } catch {
       this.setStatus(
         "This browser could not create a random scramble key.",
@@ -567,7 +561,7 @@ export class MegaminxApp {
     const client = this.searchClient;
     if (!client) {
       this.setStatus(
-        "The search worker is unavailable. Reload or try again.",
+        "Solving isn't available. Reload the page to try again.",
         "error",
       );
       return;
@@ -605,14 +599,14 @@ export class MegaminxApp {
       this.searchProgress = null;
       if (outcome.status === "cancelled") {
         this.analysis = null;
-        this.setStatus("Analysis cancelled.", "info");
+        this.setStatus("Solve cancelled.", "info");
       } else {
         this.analysis = outcome;
         this.setStatus(
           outcome.status === "found"
             ? `Solved in ${outcome.depth} move${outcome.depth === 1 ? "" : "s"}.`
             : outcome.status === "unreachable"
-              ? "Analysis complete: solved lies in a different parity component."
+              ? "This position can't be solved with F and S."
               : outcome.reason,
           outcome.status === "found"
             ? "success"
@@ -627,13 +621,9 @@ export class MegaminxApp {
       this.isSearching = false;
       this.searchProgress = null;
       if (error instanceof SearchCancelledError) {
-        this.setStatus("Analysis cancelled.", "info");
+        this.setStatus("Solve cancelled.", "info");
       } else {
-        const message =
-          error instanceof SearchClientError || error instanceof Error
-            ? error.message
-            : "Unknown worker failure.";
-        this.setStatus(`Analysis failed: ${message} Try again.`, "error");
+        this.setStatus("Solving failed. Reload the page and try again.", "error");
       }
       this.render();
     }
@@ -670,7 +660,7 @@ export class MegaminxApp {
     ) {
       this.analysis = null;
     }
-    this.setStatus("Playback stopped.", "info");
+    this.setStatus("", "info");
     this.render();
     this.scheduleUrlUpdate();
   }
@@ -684,13 +674,13 @@ export class MegaminxApp {
       return;
     await this.copyText(
       formatWord(this.analysis.word),
-      "Solution word copied.",
+      "Solution copied.",
     );
   }
 
   private async shareWorkspace(): Promise<void> {
     const link = this.flushUrlUpdate();
-    await this.copyText(link, "Workspace link copied.", true);
+    await this.copyText(link, "Link copied.", true);
   }
 
   private async copyText(
@@ -710,7 +700,7 @@ export class MegaminxApp {
         this.view.elements.shareLinkInput.select();
       } else {
         this.setStatus(
-          "Clipboard access was denied. Select the word and copy it manually.",
+          "Your browser blocked copying. Select the moves and copy them yourself.",
           "warning",
         );
       }
@@ -909,7 +899,7 @@ export class MegaminxApp {
       const metrics = this.searchProgress?.metrics;
       analysisStatus.textContent = metrics
         ? `Exploring… ${metrics.visited} states discovered, ${metrics.expanded} expanded.`
-        : "Starting the search worker…";
+        : "Starting…";
     } else if (!this.analysis) {
       analysisStatus.textContent = "";
     }
@@ -929,8 +919,10 @@ export class MegaminxApp {
       result.status === "found"
         ? result.word.length > 0
           ? formatWord(result.word)
-          : "Identity — already solved"
-        : result.reason;
+          : "None needed: already solved."
+        : result.status === "unreachable"
+          ? "No solution"
+          : result.reason;
     elements.copySolutionButton.hidden = !found || found.word.length === 0;
     elements.playSolutionButton.hidden = !found || found.word.length === 0;
     elements.playSolutionButton.disabled =
@@ -947,7 +939,10 @@ export class MegaminxApp {
           : `Solved in ${found.depth} move${found.depth === 1 ? "" : "s"}.`;
       this.renderPath(found);
     } else if (result.status !== "found") {
-      elements.analysisStatus.textContent = result.reason;
+      elements.analysisStatus.textContent =
+        result.status === "unreachable"
+          ? "This position can't be solved with F and S."
+          : result.reason;
       elements.pathList.replaceChildren();
     }
     this.renderLayers(result);
@@ -1017,7 +1012,7 @@ export class MegaminxApp {
         return;
       this.playback.start(result.word, "solution", "Shortest solution", false);
       playback = this.session.snapshot().playback;
-      this.setStatus("Solution ready at step 0.", "info");
+      this.setStatus("", "info");
     }
     if (
       playback?.source !== "solution" ||
@@ -1241,8 +1236,8 @@ export class MegaminxApp {
     } else if (announce || decoded.hasSession) {
       this.setStatus(
         decoded.word.length > 0
-          ? "Shared word ready at step 0."
-          : "Shared state loaded.",
+          ? "Shared moves loaded. Press Play to watch them."
+          : "Shared position loaded.",
         "success",
       );
     } else {

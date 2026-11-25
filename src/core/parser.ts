@@ -49,14 +49,14 @@ const validateUniqueIds = (
   const ids = new Set(edges.map((edge) => edge.id));
   return ids.size === 5
     ? null
-    : failure("DUPLICATE_EDGE", "Each edge id 1..5 must appear exactly once.");
+    : failure("DUPLICATE_EDGE", "Use each edge from 1 to 5 exactly once.");
 };
 
 /** Parse strict human tuple notation, with either no brackets or one matched pair. */
 export const parseTuple = (input: string): TupleParseResult => {
   const trimmed = input.trim();
   if (trimmed.length === 0) {
-    return failure("EMPTY_INPUT", "Enter five comma-separated edge tokens.");
+    return failure("EMPTY_INPUT", "Enter five edges, like [1, 3', 5, 4, 2].");
   }
 
   const hasOpeningBracket = trimmed.startsWith("[");
@@ -73,7 +73,7 @@ export const parseTuple = (input: string): TupleParseResult => {
   if (tokens.length !== 5) {
     return failure(
       "TOKEN_COUNT",
-      "Input must contain exactly 5 comma-separated edge tokens.",
+      "Enter five edges, like [1, 3', 5, 4, 2].",
     );
   }
 

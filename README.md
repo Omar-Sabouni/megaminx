@@ -22,9 +22,9 @@ Open the local address printed by Vite.
 - Undo and redo individual moves, or enter a complete move word.
 - Generate a scramble from a key and length.
 - Load a signed edge state such as `[1, 3', 5, 4, 2]`.
-- Select **Solve shortest word** to inspect the path and search layers, then play
+- Select **Find the shortest solution** to inspect the path and search layers, then play
   the solution or select a path state.
-- Select **Copy session link** to share the current state and inputs.
+- Select **Copy link** to share the current state and inputs.
 
 The five-edge model contains four disconnected components of 960 states. A state
 outside the solved component can still be loaded and inspected, but it has no path

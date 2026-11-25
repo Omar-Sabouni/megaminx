@@ -28,7 +28,7 @@ test("seeded scramble and fragment session round-trip", async ({ page }) => {
   await page.goto("/#v=1&p=top-layer-edges&state=bad");
   await expect(page.locator("#currentState")).toHaveText("[1, 2, 3, 4, 5]");
   await expect(page.locator("#globalStatus")).toContainText(
-    "Shared state is invalid",
+    "position is invalid",
   );
 });
 
