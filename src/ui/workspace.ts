@@ -189,7 +189,7 @@ export class WorkspaceView {
                   <input id="stateInput" name="state" type="text" autocomplete="off" spellcheck="false" aria-describedby="stateHint stateError" value="[1, 2, 3, 4, 5]" />
                   <button class="primary-command" type="submit" aria-label="Load state">Load</button>
                 </div>
-                <p id="stateHint" class="field-note">e.g. <code>[1, 3', 5, 4, 2]</code></p>
+                <p id="stateHint" class="field-note">For example: <code>[1, 3', 5, 4, 2]</code></p>
                 <p id="stateError" class="field-error" role="alert"></p>
               </form>
             </section>

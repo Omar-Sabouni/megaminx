@@ -604,7 +604,7 @@ export class MegaminxApp {
         this.analysis = outcome;
         this.setStatus(
           outcome.status === "found"
-            ? `Solved in ${outcome.depth} move${outcome.depth === 1 ? "" : "s"}.`
+            ? ""
             : outcome.status === "unreachable"
               ? "This position can't be solved with F and S."
               : outcome.reason,
