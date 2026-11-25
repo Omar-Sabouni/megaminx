@@ -919,7 +919,7 @@ export class MegaminxApp {
       result.status === "found"
         ? result.word.length > 0
           ? formatWord(result.word)
-          : "None needed: already solved."
+          : "—"
         : result.status === "unreachable"
           ? "No solution"
           : result.reason;
@@ -1062,11 +1062,13 @@ export class MegaminxApp {
     const farthest = layers.at(-1)?.depth ?? 0;
     const goalNote =
       goalDepth !== null
-        ? ` This one is ${goalDepth} away.`
+        ? ` This position is ${goalDepth} move${goalDepth === 1 ? "" : "s"} from solved.`
         : result.status === "unreachable"
-          ? " Solved can't be reached from here."
+          ? " This position can't reach solved."
           : "";
-    elements.histogramCaption.textContent = `${total} positions${result.componentComplete ? `, none more than ${farthest} moves away` : " found so far"}.${goalNote}`;
+    elements.histogramCaption.textContent = result.componentComplete
+      ? `There are ${total} positions, and none is more than ${farthest} moves from solved.${goalNote}`
+      : `The search has found ${total} positions so far.${goalNote}`;
 
     elements.histogramTableBody.replaceChildren(
       ...layers.map((layer) => {

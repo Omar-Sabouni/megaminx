@@ -84,7 +84,7 @@ export class WorkspaceView {
           <div class="app-identity">
             <div class="title-stack">
               <h1 aria-label="Megaminx"><span>M</span><span>e</span><span>g</span><span>a</span><span>m</span><span>i</span><span>n</span><span>x</span></h1>
-              <p class="subtitle">Five top-layer edges. Two moves. 960 positions.</p>
+              <p class="subtitle">This models the five top-layer edges of a Megaminx, turned by two moves that reach 960 positions.</p>
             </div>
           </div>
           <p id="globalStatus" class="global-status info" role="status" aria-live="polite">Loading…</p>
@@ -206,7 +206,7 @@ export class WorkspaceView {
                 <ul class="color-key" aria-label="Edge color key">
                   ${([1, 2, 3, 4, 5] as const).map((id) => `<li><span class="swatch pair" style="--top:${TOP_FACE_COLOR_HEX};--side:${EDGE_SIDE_COLOR_HEX_BY_ID[id]}"></span><code>${id}</code></li>`).join("")}
                 </ul>
-                <p>Move words use <code>F, F′, S, S′</code> and are read from left to right.</p>
+                <p>Moves use <code>F, F′, S, S′</code> and are read from left to right.</p>
                 <dl class="notation-strip" aria-label="Move definitions">
                   <div><dt><code>F</code></dt><dd><code>[a,b,c,d,e] → [b′,c,a′,d,e]</code></dd></div>
                   <div><dt><code>S</code></dt><dd><code>[a,b,c,d,e] → [e,a,b,c,d]</code></dd></div>
@@ -237,7 +237,7 @@ export class WorkspaceView {
               </div>
 
               <section class="analysis-section" aria-labelledby="pathHeading">
-                <h3 id="pathHeading">Step by step</h3>
+                <h3 id="pathHeading">Solution steps</h3>
                 <ol id="pathList" class="path-list"></ol>
               </section>
 
