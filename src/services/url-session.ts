@@ -182,8 +182,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "missing-field",
         field: "v",
-        message:
-          "This link is incomplete, so the puzzle starts solved.",
+        message: "This link is incomplete, so the puzzle starts solved.",
       });
     }
     return defaultSession(definition, true, warnings);
@@ -204,8 +203,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "missing-field",
         field: "p",
-        message:
-          "This link is incomplete, so the puzzle starts solved.",
+        message: "This link is incomplete, so the puzzle starts solved.",
       });
     }
     return defaultSession(definition, true, warnings);
@@ -227,8 +225,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "missing-field",
         field: "state",
-        message:
-          "This link is incomplete, so the puzzle starts solved.",
+        message: "This link is incomplete, so the puzzle starts solved.",
       });
     }
   } else {

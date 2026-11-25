@@ -71,10 +71,7 @@ export const parseTuple = (input: string): TupleParseResult => {
   const body = hasOpeningBracket ? trimmed.slice(1, -1).trim() : trimmed;
   const tokens = body.split(",").map((token) => token.trim());
   if (tokens.length !== 5) {
-    return failure(
-      "TOKEN_COUNT",
-      "Enter five edges, like [1, 3', 5, 4, 2].",
-    );
+    return failure("TOKEN_COUNT", "Enter five edges, like [1, 3', 5, 4, 2].");
   }
 
   const emptyPosition = tokens.findIndex((token) => token.length === 0);

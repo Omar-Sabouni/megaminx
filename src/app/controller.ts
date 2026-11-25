@@ -9,10 +9,7 @@ import { validateReachableInput } from "../core/reachability";
 import { TOP_LAYER_EDGES } from "../puzzles/topLayerEdges";
 import { decodeSessionHash, encodeSessionHash } from "../services/url-session";
 import type { DecodedSession } from "../services/url-session";
-import {
-  SearchCancelledError,
-  SearchClient,
-} from "../services/search-client";
+import { SearchCancelledError, SearchClient } from "../services/search-client";
 import type { TopLayerScene } from "../ui/scene";
 import { WorkspaceView } from "../ui/workspace";
 import type { StatusTone } from "../ui/workspace";
@@ -150,7 +147,10 @@ export class MegaminxApp {
       this.searchClient = new SearchClient();
     } catch {
       this.searchClient = null;
-      this.setStatus("Solving isn't available. Reload the page to try again.", "error");
+      this.setStatus(
+        "Solving isn't available. Reload the page to try again.",
+        "error",
+      );
     }
   }
 
@@ -623,7 +623,10 @@ export class MegaminxApp {
       if (error instanceof SearchCancelledError) {
         this.setStatus("Solve cancelled.", "info");
       } else {
-        this.setStatus("Solving failed. Reload the page and try again.", "error");
+        this.setStatus(
+          "Solving failed. Reload the page and try again.",
+          "error",
+        );
       }
       this.render();
     }
@@ -672,10 +675,7 @@ export class MegaminxApp {
       this.analysis.word.length === 0
     )
       return;
-    await this.copyText(
-      formatWord(this.analysis.word),
-      "Solution copied.",
-    );
+    await this.copyText(formatWord(this.analysis.word), "Solution copied.");
   }
 
   private async shareWorkspace(): Promise<void> {
