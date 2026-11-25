@@ -183,7 +183,7 @@ export const decodeSessionHash = <S, M extends string>(
         code: "missing-field",
         field: "v",
         message:
-          "Shared session is missing required data; the solved state was loaded.",
+          "This link is incomplete, so the puzzle starts solved.",
       });
     }
     return defaultSession(definition, true, warnings);
@@ -205,7 +205,7 @@ export const decodeSessionHash = <S, M extends string>(
         code: "missing-field",
         field: "p",
         message:
-          "Shared session is missing its puzzle id; the solved state was loaded.",
+          "This link is incomplete, so the puzzle starts solved.",
       });
     }
     return defaultSession(definition, true, warnings);
@@ -228,7 +228,7 @@ export const decodeSessionHash = <S, M extends string>(
         code: "missing-field",
         field: "state",
         message:
-          "Shared session is missing its state; the solved state was loaded.",
+          "This link is incomplete, so the puzzle starts solved.",
       });
     }
   } else {
@@ -239,7 +239,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "invalid-state",
         field: "state",
-        message: `Shared state is invalid (${stateResult.error.message}); the solved state was loaded.`,
+        message: `This link's position is invalid, so the puzzle starts solved. ${stateResult.error.message}`,
       });
     }
   }
@@ -254,7 +254,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "invalid-word",
         field: "word",
-        message: `Shared word was ignored: ${wordResult.error.message}`,
+        message: `This link's moves were skipped. ${wordResult.error.message}`,
       });
     }
   }
@@ -268,7 +268,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "invalid-seed",
         field: "seed",
-        message: `Shared key was ignored: ${seedResult.error.message}`,
+        message: `This link's scramble key was skipped. ${seedResult.error.message}`,
       });
     }
   }
@@ -282,7 +282,7 @@ export const decodeSessionHash = <S, M extends string>(
       warnings.push({
         code: "invalid-length",
         field: "len",
-        message: `Shared scramble length was ignored: ${lengthResult.error.message}`,
+        message: `This link's scramble length was skipped. ${lengthResult.error.message}`,
       });
     }
   }

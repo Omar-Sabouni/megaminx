@@ -100,14 +100,14 @@ describe("application controller", () => {
     );
     await vi.waitFor(() =>
       expect(document.querySelector("#globalStatus")?.textContent).toContain(
-        "unreachable component",
+        "can't be solved with F and S",
       ),
     );
 
     click("#solveButton");
     await vi.waitFor(() =>
       expect(document.querySelector("#analysisStatus")?.textContent).toContain(
-        "Component mismatch",
+        "can't be solved with F and S",
       ),
     );
     expect(document.querySelector("#solutionDepth")?.textContent).toBe("—");

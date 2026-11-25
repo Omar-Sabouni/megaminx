@@ -156,12 +156,12 @@ export class WorkspaceView {
 
               <form id="wordForm" class="command-mode" aria-labelledby="wordModeHeading" novalidate>
                 <div class="mode-heading"><h4 id="wordModeHeading">Type a sequence</h4></div>
-                <label class="sr-only" for="wordInput">Move word</label>
+                <label class="sr-only" for="wordInput">Moves</label>
                 <textarea id="wordInput" rows="2" maxlength="800" spellcheck="false" placeholder="S F S′" aria-describedby="wordError wordPreview"></textarea>
                 <p id="wordError" class="field-error" role="alert"></p>
                 <p id="wordPreview" class="field-note">Identity word. Target equals current state.</p>
                 <div class="command-row">
-                  <button id="applyWordButton" class="primary-command" type="submit">Apply word</button>
+                  <button id="applyWordButton" class="primary-command" type="submit">Apply moves</button>
                   <button id="replayWordButton" type="button">Preview</button>
                 </div>
               </form>
@@ -233,7 +233,7 @@ export class WorkspaceView {
               </dl>
               <div class="command-row solution-actions">
                 <button id="playSolutionButton" class="primary-command" type="button">Play solution</button>
-                <button id="copySolutionButton" type="button">Copy word</button>
+                <button id="copySolutionButton" type="button">Copy moves</button>
               </div>
 
               <section class="analysis-section" aria-labelledby="pathHeading">
@@ -262,8 +262,8 @@ export class WorkspaceView {
 
         <dialog id="shareDialog" aria-labelledby="shareDialogHeading">
           <form method="dialog">
-            <h2 id="shareDialogHeading">Copy session link</h2>
-            <p>Copy this link.</p>
+            <h2 id="shareDialogHeading">Copy this link</h2>
+            <p>Your browser blocked automatic copying. Select the link and copy it.</p>
             <label for="shareLinkInput">Link</label>
             <input id="shareLinkInput" type="text" readonly />
             <p><button id="closeShareDialog" class="primary-command" value="close">Close</button></p>
